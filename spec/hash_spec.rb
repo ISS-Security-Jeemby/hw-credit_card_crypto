@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../credit_card'
 require 'minitest/autorun'
 
@@ -23,26 +25,31 @@ end
 
 describe 'Test hashing requirements' do
   describe 'Test regular hashing' do
-    describe 'Check hashes are consistently produced' do
+    it 'Check hashes are consistently produced' do
       # TODO: Check that each card produces the same hash if hashed repeatedly
+      cards.each { |card| (card.hash).must_equal card.hash }
     end
 
-    describe 'Check for unique hashes' do
+    it 'Check for unique hashes' do
       # TODO: Check that each card produces a different hash than other cards
+      cards.map(&:hash).uniq.length.must_equal(cards.length)
     end
   end
 
   describe 'Test cryptographic hashing' do
-    describe 'Check hashes are consistently produced' do
+    it 'Check hashes are consistently produced' do
       # TODO: Check that each card produces the same hash if hashed repeatedly
+      cards.each { |card| (card.hash_secure).must_equal card.hash_secure }
     end
 
-    describe 'Check for unique hashes' do
+    it 'Check for unique hashes' do
       # TODO: Check that each card produces a different hash than other cards
+      cards.map(&:hash_secure).uniq.length.must_equal(cards.length)
     end
 
-    describe 'Check regular hash not same as cryptographic hash' do
+    it 'Check regular hash not same as cryptographic hash' do
       # TODO: Check that each card's hash is different from its hash_secure
+      cards.each { |card| (card.hash_secure).wont_equal card.hash }
     end
   end
 end
